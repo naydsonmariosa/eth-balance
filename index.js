@@ -22,7 +22,9 @@ function main() {
         }
     
         return getBalance(result.address)
-            .then(bal => console.log(`   BALANCE: ${bal}`));
+            .then(bal => console.log(`   BALANCE: ${bal}`))
+            .catch(error => console.log(`   ERROR: ${error.message}`))
+            .then(_ => main());
     });
 }
 
@@ -31,6 +33,10 @@ function onError(error) {
 }
 
 async function getBalance(address) {
-    return w3.eth.getBalance(address, (err, bal) => bal )
+    try {
+        return w3.eth.getBalance(address, (err, bal) => bal )
+    } catch(error) {
+        return error;
+    }
 }
 
